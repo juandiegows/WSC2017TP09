@@ -1,8 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vista.Models;
 using Vista.View;
+using System.Drawing.Text;
 
 namespace Vista
 {
@@ -19,7 +22,7 @@ namespace Vista
 
         Tickets tickets = new Tickets();
         double total = 0;
-        double totalPagar =0;
+        double totalPagar = 0;
         double totalImpuesto = 0;
         public BuyServices()
         {
@@ -38,7 +41,7 @@ namespace Vista
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("¿desea salir?","Alerta", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("¿desea salir?", "Alerta", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Application.Exit();
             }
@@ -48,7 +51,7 @@ namespace Vista
         {
             if (MessageBox.Show("¿desea guardar los cambios?", "Alerta", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                using(Session5Entities model =new Session5Entities())
+                using (Session5Entities model = new Session5Entities())
                 {
                     try
                     {
@@ -86,7 +89,7 @@ namespace Vista
 
         private void BuyServices_Load(object sender, EventArgs e)
         {
-
+          
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -141,13 +144,13 @@ namespace Vista
                 {
                     txtName.Text = $"{tickets.Firstname}  {tickets.Lastname}";
                     txtPassport.Text = tickets.PassportNumber;
-                    txtCabinType.Text = tickets.CabinTypes.Name ;
+                    txtCabinType.Text = tickets.CabinTypes.Name;
                     List<Amenities> list = model.Amenities.ToList();
                     FLPServices.Controls.Clear();
                     foreach (var item in list)
                     {
                         CheckBox checkBox = new CheckBox();
-                        if(tickets.CabinTypes.Amenities.Count(d=> d.ID == item.ID)>0) 
+                        if (tickets.CabinTypes.Amenities.Count(d => d.ID == item.ID) > 0)
                         {
                             checkBox = new CheckBox()
                             {
@@ -155,10 +158,10 @@ namespace Vista
                                 AutoSize = true,
                                 Text = $"{item.Service}(Free)",
                                 Enabled = false,
-                                Margin = new Padding(20,10,20,0),
+                                Margin = new Padding(20, 10, 20, 0),
                                 Checked = true,
                                 Tag = item.ID
-                                
+
                             };
                         }
                         else if (tickets.AmenitiesTickets.Count(d => d.AmenityID == item.ID) > 0)
@@ -170,7 +173,7 @@ namespace Vista
                             {
                                 Visible = true,
                                 AutoSize = true,
-                                Text = $"{item.Service}(${Math.Round(item.Price,2)})",
+                                Text = $"{item.Service}(${Math.Round(item.Price, 2)})",
                                 Checked = true,
                                 Tag = item.ID
 
@@ -189,13 +192,14 @@ namespace Vista
                         }
                         checkBox.CheckedChanged += (d, ev) =>
                         {
-                           
+
                             if (checkBox.Checked)
                             {
                                 total += (double)item.Price;
                                 totalImpuesto += ((double)item.Price) * 0.05;
                                 totalPagar = total + totalImpuesto;
-                            }else
+                            }
+                            else
                             {
                                 total -= (double)item.Price;
                                 totalImpuesto -= ((double)item.Price) * 0.05;
@@ -203,14 +207,15 @@ namespace Vista
                             }
                             txtTotal.Text = $"$ {total}";
                             txtTotalImpuesto.Text = $"$ {totalImpuesto}";
-                            txtTotalPagar.Text= $"$ {totalPagar}";
+                            txtTotalPagar.Text = $"$ {totalPagar}";
                         };
                         FLPServices.Controls.Add(checkBox);
                     }
                     txtTotal.Text = $"$ {total}";
                     txtTotalImpuesto.Text = $"$ {totalImpuesto}";
                     txtTotalPagar.Text = $"$ {totalPagar}";
-                } else
+                }
+                else
                 {
                     Limpiar();
                 }

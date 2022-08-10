@@ -33,8 +33,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DTServiciosCabinType = new System.Windows.Forms.DataGridView();
             this.btnExit = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.btnGeneratePDF = new System.Windows.Forms.Button();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.DTServiciosCabinType)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,22 +97,22 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // button3
+            // btnGeneratePDF
             // 
-            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.Color.Green;
-            this.button3.Location = new System.Drawing.Point(232, 402);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(185, 36);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Generate Report";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.btnGenerateReport_Click);
+            this.btnGeneratePDF.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnGeneratePDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGeneratePDF.ForeColor = System.Drawing.Color.Green;
+            this.btnGeneratePDF.Location = new System.Drawing.Point(232, 402);
+            this.btnGeneratePDF.Name = "btnGeneratePDF";
+            this.btnGeneratePDF.Size = new System.Drawing.Size(185, 36);
+            this.btnGeneratePDF.TabIndex = 6;
+            this.btnGeneratePDF.Text = "Generate Report";
+            this.btnGeneratePDF.UseVisualStyleBackColor = true;
+            this.btnGeneratePDF.Click += new System.EventHandler(this.btnGenerateReport_Click);
             // 
-            // saveFileDialog1
+            // saveFile
             // 
-            this.saveFileDialog1.Filter = "File PDF|*.pdf";
+            this.saveFile.Filter = "File PDF|*.pdf";
             // 
             // AmenitiesSumary
             // 
@@ -121,7 +121,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.DTServiciosCabinType);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnGeneratePDF);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtBoooking);
             this.Controls.Add(this.label1);
@@ -142,7 +142,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView DTServiciosCabinType;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button btnGeneratePDF;
+        private System.Windows.Forms.SaveFileDialog saveFile;
     }
 }

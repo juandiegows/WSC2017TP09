@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vista.Models;
+using ExcelJD = Microsoft.Office.Interop.Excel;
 
 namespace Vista
 {
@@ -74,19 +76,79 @@ namespace Vista
 
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                string ruta = saveFileDialog1.FileName;
-                Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                var libro = excel.Workbooks.Add(true);
-                var hoja = libro.Sheets.Add("Inicio");
-                int col = 0, row = 0;
-                for (int i = 0; i < DTServiciosCabinType.ColumnCount; i++)
-                {
-                    hoja.Cells[row, col] = DTServiciosCabinType.Columns[i].Name;
-                }
-                libro.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, ruta);
+                string ruta = saveFile.FileName;
+                var wordApp = new ExcelJD.Application();
+                wordApp.DisplayAlerts = false;
+                //wordApp.Visible = true;
+                var libro = wordApp.Workbooks.Add();
+                ExcelJD.Worksheet worksheet = (ExcelJD.Worksheet)libro.Sheets[1];
+                worksheet.Name = "Juan Diego";
+            
+                ExcelJD.Style estilo = libro.Styles.Add("CeldaFull");
+                estilo.Font.Color = Color.Green;
+                estilo.Font.Bold = true;
+                estilo.Borders.Color = Color.Green;
+                estilo.Borders[ExcelJD.XlBordersIndex.xlDiagonalDown].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+                estilo.Borders[ExcelJD.XlBordersIndex.xlDiagonalUp].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+                estilo.Font.Name = "Century Gothic";
+                estilo.HorizontalAlignment = ExcelJD.XlHAlign.xlHAlignCenter;
 
+                estilo.Font.Color = Color.Black;
+                estilo.Font.Bold = false;
+                estilo.Borders.Color = Color.Black;
+                estilo.IncludeAlignment = true;
+                estilo.HorizontalAlignment = ExcelJD.XlHAlign.xlHAlignCenter;
+                estilo.Borders[ExcelJD.XlBordersIndex.xlDiagonalDown].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+                estilo.Borders[ExcelJD.XlBordersIndex.xlDiagonalUp].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+
+                worksheet.Range[$"C2:E{DTServiciosCabinType.ColumnCount + 1}"].Style = estilo;
+
+                ExcelJD.Style estilo2 = libro.Styles.Add("CeldaFull2");
+                estilo2.Font.Color = Color.Green;
+                estilo2.Font.Bold = true;
+                estilo2.Borders.Color = Color.Black;
+                estilo2.Borders[ExcelJD.XlBordersIndex.xlDiagonalDown].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+                estilo2.Borders[ExcelJD.XlBordersIndex.xlDiagonalUp].LineStyle = ExcelJD.XlLineStyle.xlLineStyleNone;
+                estilo2.Font.Name = "Century Gothic";
+                estilo2.HorizontalAlignment = ExcelJD.XlHAlign.xlHAlignCenter;
+                worksheet.Range["B2:E2"].Style = estilo2;
+                worksheet.Range[$"B2:B{DTServiciosCabinType.ColumnCount + 1}"].Style = estilo2;
+
+                int col = 3, row = 2;
+                for (int i = 0; i < DTServiciosCabinType.RowCount; i++)
+                {
+
+                    worksheet.Cells[row, col] = DTServiciosCabinType.Rows[i].Cells[0].Value.ToString();
+                    col++;
+                }
+
+                col = 2; row = 3;
+                for (int i = 1; i < DTServiciosCabinType.ColumnCount; i++)
+                {
+
+                    worksheet.Cells[row, col] = DTServiciosCabinType.Columns[i].Name;
+                    row++;
+                }
+                col = 3; row = 3;
+                for (int i = 1; i < DTServiciosCabinType.ColumnCount; i++)
+                {
+                    col = 3;
+                    for (int j = 0; j < DTServiciosCabinType.RowCount; j++)
+                    {
+                        worksheet.Cells[row, col] = DTServiciosCabinType.Rows[j].Cells[i].Value.ToString();
+                        col++;
+                    }
+                    row++;
+                }
+                worksheet.Columns.AutoFit();
+
+
+                libro.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, ruta);
+                wordApp.Quit();
+                System.Diagnostics.Process.Start(saveFile.FileName);
+                MessageBox.Show("Se ha guardado correctamente");
             }
 
         }
