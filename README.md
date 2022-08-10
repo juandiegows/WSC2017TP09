@@ -1,6 +1,8 @@
 # WSC2017TP09
 
-Este es un proyecto prueba de WorldSkills 
+Este es un proyecto prueba de WorldSkills tiempo para la creación 3 horas
+
+this is a project test of WorldSkills, time for test is 3 hours
 
 ![image](https://user-images.githubusercontent.com/65135568/184011966-d72539c2-c737-488f-8add-5cc02711e735.png)
 
